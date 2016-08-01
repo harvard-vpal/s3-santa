@@ -7,7 +7,6 @@ import os
 class GoogleSpreadsheet:
 	def __init__(self):
 		scope = ['https://spreadsheets.google.com/feeds']
-		print config.GOOGLE_KEYFILE
 		credentials = ServiceAccountCredentials.from_json_keyfile_name(os.path.expanduser(config.GOOGLE_KEYFILE), scope)
 		client = gspread.authorize(credentials)
 
@@ -30,20 +29,20 @@ class GoogleSpreadsheet:
 		self.spreadsheet.append_row(row)
 
 
-	def initialize_columns(self):
+	def initialize(self):
 		'''
-		Add column headers to blank spreadsheet, only needs to be done once
+		Clear (resize) spreadsheet and apply column headers
+		only needs to be done once
 		'''
-		if not self.is_blank():
-			raise Exception('Spreadsheet not blank')
-
-		self.append_row([
+		self.spreadsheet.insert_row([
 			'Name',
 			'Access Key ID',
 			'Secret Access Key',
 			'Description'
-		])
+		],index=1)
+		print "Initialized columns on Google spreadsheet"
 
+		self.spreadsheet.resize(rows=1,cols=4)
 
 	def add_user(self,user):
 		'''
@@ -55,9 +54,10 @@ class GoogleSpreadsheet:
 			user.secret_access_key,
 			user.description,
 		])
+		print "Added user to google spreadsheet"
 
 
 if __name__=='__main__':
 	gs = GoogleSpreadsheet()
-	print gs.isblank()
+	gs.initialize()
 
