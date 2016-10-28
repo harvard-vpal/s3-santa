@@ -98,11 +98,18 @@ def upload_to_s3(file,bucket,username):
         parse=False
     )
 
-# def create_s3_folder(bucket,username):
-#     '''
-#     TODO Create a user folder on s3
-#     '''
-#     pass
+def create_s3_folder(bucket,foldername):
+    '''
+    Create a folder on s3
+    '''
+    results = run(
+        "aws s3api put-object --bucket {} --key {}/".format(
+            bucket,
+            foldername,
+        ),
+        parse=False
+    )
+    print "Created folder {}".format(foldername)
 
 if __name__=="__main__":
     pass

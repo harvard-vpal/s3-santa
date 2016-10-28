@@ -20,6 +20,8 @@ class User:
             # add to group
             self.add_user_to_group()
             self.description = description
+            # create user folder
+            self.create_user_folder()
 
             # update google
             spreadsheet = GoogleSpreadsheet()
@@ -65,6 +67,11 @@ class User:
         '''
         aws.add_user_to_group(self.name,config.IAM_GROUP)
 
+    def create_user_folder(self):
+        '''
+        Create s3 folder for user named using username
+        '''
+        aws.create_s3_folder(config.S3_BUCKET,self.name)
 
     def delete_user(self,name):
         '''
