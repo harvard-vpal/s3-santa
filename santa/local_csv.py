@@ -23,9 +23,9 @@ class LocalCSV:
 
 
 	def initialize_columns(self):
-		'''
+		"""
 		Add column headers to blank spreadsheet, only needs to be done once
-		'''
+		"""
 		if not self.is_blank():
 			raise Exception('Spreadsheet not blank')
 
@@ -39,9 +39,9 @@ class LocalCSV:
 
 		
 	def add_user(self,user):
-		'''
+		"""
 		Add row for new user
-		'''
+		"""
 		self.append_row([
 			user.name, 
 			user.access_key_id, 

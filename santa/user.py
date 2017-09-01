@@ -7,10 +7,10 @@ from config import config
 
 class User:
     def __init__(self,name=None,description=None):
-        '''
+        """
         Get or create user with specified username
         On creation, attach to group
-        '''
+        """
         self.usernames = aws.list_users()
 
         # create new user
@@ -39,10 +39,10 @@ class User:
             print "Identified existing user: {}".format(self.name)
 
     def create_user(self,name=None):
-        '''
+        """
         Generate a new IAM user on the AWS account
         If name not specified, uses generate_name to generate one
-        '''
+        """
         while name in self.usernames or not name:
             name = generate_name()
         
@@ -50,9 +50,9 @@ class User:
 
 
     def create_access_key(self):
-        '''
+        """
         Generate access key for user
-        '''
+        """
         access_key = aws.create_access_key(self.name)
         self.access_key_id = access_key['AccessKeyId']
         self.secret_access_key = access_key['SecretAccessKey']
@@ -62,29 +62,29 @@ class User:
         # )
 
     def add_user_to_group(self):
-        '''
+        """
         Add user to group
-        '''
+        """
         aws.add_user_to_group(self.name,config.IAM_GROUP)
 
     def create_user_folder(self):
-        '''
+        """
         Create s3 folder for user named using username
-        '''
+        """
         aws.create_s3_folder(config.S3_BUCKET,self.name)
 
     def delete_user(self,name):
-        '''
+        """
         TODO Delete user
-        '''
+        """
         # delete from aws
         # delete from google / local databases
         pass
 
     def update_description(self,name):
-        '''
+        """
         TODO Set user description on csv/gspread
-        '''
+        """
         pass
 
     def update_google_spreadsheet(self):

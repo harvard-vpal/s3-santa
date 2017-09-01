@@ -3,9 +3,9 @@ import json
 
 
 def run(cmd,parse=True):
-    '''
+    """
     Run a system command and optionally return the result as a dictionary
-    '''
+    """
     if parse:
         with os.popen(cmd) as f:
             try:
@@ -21,9 +21,9 @@ def run(cmd,parse=True):
     
 
 def list_users(group=None):
-    '''
+    """
     Returns a list of usernames
-    '''
+    """
     if not group:
         results = run("aws iam list-users")
     else:
@@ -32,9 +32,9 @@ def list_users(group=None):
     return usernames
 
 def create_user(username):
-    '''
+    """
     Creates a new IAM user and returns the username
-    '''
+    """
     results = run("aws iam create-user --user-name {}".format(username))
     # username = results['User']['UserName']
     print "Created IAM user: {}".format(username)
@@ -42,9 +42,9 @@ def create_user(username):
     
 
 def create_access_key(username):
-    '''
+    """
     Creates an access key pair for an IAM user
-    '''
+    """
     results = run("aws iam create-access-key --user-name {}".format(username))
     access_key = {
         'AccessKeyId':results['AccessKey']['AccessKeyId'],
@@ -55,23 +55,23 @@ def create_access_key(username):
 
 
 def get_user(username):
-    '''
+    """
     Get info about an existing user
-    '''
+    """
     results = run("aws iam get-user --user-name {}".format(username))
     return results
 
 def user_exists(username):
-    '''
+    """
     Returns True if the user exists
-    '''
+    """
     usernames = list_users()
     return bool(username in usernames)
 
 def add_user_to_group(username, group):
-    '''
+    """
     attach user to group
-    '''
+    """
     results = run(
         "aws iam add-user-to-group --user-name {} --group-name {}".format(
             username,
@@ -82,9 +82,9 @@ def add_user_to_group(username, group):
     print "User {} added to group {}".format(username,group)
 
 def upload_to_s3(file,bucket,username):
-    '''
+    """
     upload a file to a user's folder
-    '''
+    """
     if not os.path.exists(file):
         raise ValueError("Specified file or directory not found")
 
@@ -99,9 +99,9 @@ def upload_to_s3(file,bucket,username):
     )
 
 def create_s3_folder(bucket,foldername):
-    '''
+    """
     Create a folder on s3
-    '''
+    """
     results = run(
         "aws s3api put-object --bucket {} --key {}/".format(
             bucket,

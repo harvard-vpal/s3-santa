@@ -23,17 +23,17 @@ class GoogleSpreadsheet:
 
 
 	def append_row(self,row):
-		'''
+		"""
 		Generic function to add row to spreadsheet
-		'''
+		"""
 		self.spreadsheet.append_row(row)
 
 
 	def initialize(self):
-		'''
+		"""
 		Clear (resize) spreadsheet and apply column headers
 		only needs to be done once
-		'''
+		"""
 		self.spreadsheet.insert_row([
 			'Name',
 			'Access Key ID',
@@ -45,9 +45,9 @@ class GoogleSpreadsheet:
 		self.spreadsheet.resize(rows=1,cols=4)
 
 	def add_user(self,user):
-		'''
+		"""
 		Add row for new user, takes as input a user object
-		'''
+		"""
 		self.append_row([
 			user.name, 
 			user.access_key_id, 
