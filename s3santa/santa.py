@@ -2,7 +2,6 @@ from user import User
 import aws
 from config import config
 from generate_name import generate_name
-import argparse
 
 
 class Santa:
@@ -14,34 +13,45 @@ class Santa:
     """
 
     def __init__(self, s3_bucket, iam_group, user_store):
+        self.s3_bucket = s3_bucket
         self.user_store = user_store
+        self.iam_group = iam_group
 
-    def create_user(self, username=None, save=True):
+    def generate_user(self):
         """
-        Creates a user. If the user already exists, will return the existing user
+        Get a username to use, that isn't taken yet
+        """
+        # Generate random username if one not provided as input
+        user = User(name=generate_name())
+        while user.exists():
+            # try another username if name already taken
+            user = User(name=generate_name())
+        return user
+
+    def create_user(self, username=None):
+        """
+        Creates new user. 
+        If specified username corresponds to an existing user, an error is raised.
+        If not username is specified, a random one is generated.
         Arguments:
-            save (boolean): if true, creates aws resources. if false, only generates a username and checks validity
+            username (str): username of new user to create
         """
         # Create user using provided input
         if username:
             user = User(name=username)
             if user.exists():
-                return Exception("User already exists, try another username")
+                raise Exception("User already exists, try another username")
         # Generate random username if one not provided as input
         else:
-            user = User(name=generate_name())
-            while user.exists():
-                # try another username if name already taken
-                user = User(name=generate_name())
-        # create the 
-        if save:
-            # setup aws resources and generate/save credentials
-            user.save()
-            # updates spreadsheet/db with user info and credentials
-            self.user_store.add_user(user)
+            user = self.generate_user()
+
+        # setup aws resources and generate/save credentials
+        user.save(self.s3_bucket, self.iam_group, self.user_store)
+
+        return user
 
 
-    def deliver(self, file, s3_bucket, username, create_user=True):
+    def deliver(self, file, username):
         """
         Delivers a file to a S3 user folder
         If name not specified, or name doesnt match existing user, creates a new AWS user
@@ -50,34 +60,8 @@ class Santa:
         user = User(name=username)
         # if user doesn't yet exist, we can create one
         if not user.exists():
-            if create_user:
-                user.save()
-                self.user_store.add_user(user)
-            else:
-                raise Exception("User doesn't exist yet - specify whether user should be created")
-        aws.upload_to_s3(args.file, s3_bucket, user.name)
+            raise Exception("User {} doesn't exist yet!")
+        # upload to bucket under user folder
+        aws.upload_to_s3(file, self.s3_bucket, user.name)
         return "Success: Delivered file {} to user {}".format(file, user.name)
 
-
-    def cli(self, **kwargs):
-        """
-        Provides a command line interface to santa methods
-        """
-
-        parser = argparse.ArgumentParser()
-        subparsers = parser.add_subparsers(help='sub-command help')
-
-        # define subcommand: create-user
-        subparser = subparsers.add_parser('create-user')
-        subparser.set_defaults(func=getattr(self,'create_user'))
-        subparser.add_argument('--user', help="Username of user to create (Leave unspecified to generate a random username)")
-
-        # define subcommand: deliver
-        subparser = subparsers.add_parser('deliver')
-        subparser.set_defaults(func=getattr(self,'deliver'))
-        subparser.add_argument('--user', help="Username of user to deliver file to. (If username does not exist yet, the user will be created)")
-        subparser.add_argument('--file', help="File to upload to user data folder")
-        
-        # parse and execute
-        args = parser.parse_args()
-        print args.func(args)
