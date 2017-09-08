@@ -11,7 +11,7 @@ Example usage:
 from s3santa.cli import SantaCli
 from s3santa.santa import Santa
 from s3santa.user_store import GoogleSpreadsheet
-from secure import S3_BUCKET, IAM_GROUP, GOOGLE_KEYFILE, GOOGLE_SPREADSHEET_ID
+from config import S3_BUCKET, IAM_GROUP, GOOGLE_KEYFILE, GOOGLE_SPREADSHEET_ID
 
 # define the user storage to use with santa
 user_store = GoogleSpreadsheet(
