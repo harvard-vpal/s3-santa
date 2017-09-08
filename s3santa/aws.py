@@ -29,7 +29,7 @@ def create_user(username):
     """
     results = iam.create_user(UserName=username)
     username = results['User']['UserName']
-    print "Created IAM user: {}".format(username)
+    print "[AWS] Created IAM user: {}".format(username)
     return username
     
 
@@ -38,12 +38,12 @@ def create_access_key(username):
     Creates an access key pair for an IAM user
     """
     results = iam.create_access_key(UserName=username)
-    access_key = {
-        'AccessKeyId':results['AccessKey']['AccessKeyId'],
-        'SecretAccessKey':results['AccessKey']['SecretAccessKey']
-    }
-    print "Created access key for user {}".format(username)
-    return access_key
+    keypair = (
+        results['AccessKey']['AccessKeyId'],
+        results['AccessKey']['SecretAccessKey']
+    )
+    print "[AWS] Created access key for user {}".format(username)
+    return keypair
 
 
 def get_user(username):
@@ -72,7 +72,7 @@ def add_user_to_group(username, group):
     Attach user to IAM group
     """
     results = iam.add_user_to_group(UserName=username, GroupName=group)
-    print "User {} added to group {}".format(username,group)
+    print "[AWS] User {} added to group {}".format(username,group)
 
 
 def upload_to_s3(file, bucket, username, key_suffix=None):
@@ -91,7 +91,7 @@ def upload_to_s3(file, bucket, username, key_suffix=None):
         key = username
 
     s3.upload_file(file, bucket, key)
-    print "Uploaded file {} to s3://{}/{}".format(file, bucket, key)
+    print "[AWS] Uploaded file {} to s3://{}/{}".format(file, bucket, key)
 
 
 def create_s3_folder(bucket,foldername):
@@ -102,7 +102,7 @@ def create_s3_folder(bucket,foldername):
         Bucket=bucket,
         Key="{}/".format(foldername)
     )
-    print "Created folder {}".format(foldername)
+    print "[AWS] Created folder s3://{}/{}".format(bucket,foldername)
 
 
 if __name__=="__main__":

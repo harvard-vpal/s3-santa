@@ -48,7 +48,7 @@ class GoogleSpreadsheet(UserStore):
 		return bool(self.spreadsheet.get_all_values())
 
 
-	def append_row(self,row):
+	def append_row(self, row):
 		"""
 		Generic function to add row to spreadsheet
 		"""
@@ -71,7 +71,7 @@ class GoogleSpreadsheet(UserStore):
 		self.spreadsheet.resize(rows=1,cols=4)
 
 
-	def add_user(self,user):
+	def add_user(self, user):
 		"""
 		Add row for new user, takes as input a user object
 		"""
@@ -132,7 +132,7 @@ class LocalCSV:
 		print "Initialized columns in local csv file"
 
 		
-	def add_user(self,user):
+	def add_user(self, user):
 		"""
 		Add row for new user
 		"""
