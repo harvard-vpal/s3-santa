@@ -2,7 +2,7 @@ from user import User
 import aws
 from config import config
 from generate_name import generate_name
-from user_store import get_user_store
+import argparse
 
 
 class Santa:
@@ -13,8 +13,8 @@ class Santa:
     TODO command to update description of user
     """
 
-    def __init__(self, user_store_type, **kwargs):
-        self.user_store = get_user_store(user_store_type, **kwargs)
+    def __init__(self, s3_bucket, iam_group, user_store):
+        self.user_store = user_store
 
     def create_user(self, username=None, save=True):
         """
@@ -23,14 +23,14 @@ class Santa:
             save (boolean): if true, creates aws resources. if false, only generates a username and checks validity
         """
         # Create user using provided input
-        if name:
+        if username:
             user = User(name=username)
-            if user.exists:
+            if user.exists():
                 return Exception("User already exists, try another username")
         # Generate random username if one not provided as input
         else:
             user = User(name=generate_name())
-            while user.exists:
+            while user.exists():
                 # try another username if name already taken
                 user = User(name=generate_name())
         # create the 
@@ -49,7 +49,7 @@ class Santa:
         # get or create user
         user = User(name=username)
         # if user doesn't yet exist, we can create one
-        if not user.exists:
+        if not user.exists():
             if create_user:
                 user.save()
                 self.user_store.add_user(user)

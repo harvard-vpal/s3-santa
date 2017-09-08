@@ -2,7 +2,6 @@
 Utility module for calling aws endpoints and parsing results
 """
 
-import json
 import boto3
 
 
@@ -50,6 +49,8 @@ def create_access_key(username):
 def get_user(username):
     """
     Get info about an existing user
+    Arguments:
+        username (str): username to look up
     """
     results = iam.get_user(UserName=username)
     return results
