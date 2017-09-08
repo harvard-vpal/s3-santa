@@ -7,20 +7,6 @@ import boto3
 
 iam = boto3.client('iam')
 s3 = boto3.client('s3')
-    
-
-# def list_users(group=None):
-#     """
-#     Returns a list of usernames that exist in the aws account
-#     Arguments:
-#         group (str): if included, 
-#     """
-#     if not group:
-#         results = iam.list_users()
-#     else:
-#         results = iam.get_group()
-#     usernames = [user['UserName'] for user in results['Users']]
-#     return usernames
 
 
 def create_user(username):
