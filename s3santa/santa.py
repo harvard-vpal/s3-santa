@@ -1,6 +1,5 @@
 from user import User
 import aws
-from config import config
 from generate_name import generate_name
 
 
