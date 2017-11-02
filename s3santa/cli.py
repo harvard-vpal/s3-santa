@@ -17,10 +17,6 @@ class SantaCli(object):
         self.parser = argparse.ArgumentParser()
         subparsers = self.parser.add_subparsers(help='sub-command help')
 
-        # define subcommand: generate-user
-        subparser = subparsers.add_parser('generate-user')
-        subparser.set_defaults(func=getattr(self.santa,'generate_user'), help="Propose a random username (without actually creating the user)")
-
         # define subcommand: create-user
         subparser = subparsers.add_parser('create-user')
         subparser.set_defaults(func=getattr(self,'create_user'))
