@@ -2,6 +2,7 @@
 Utility module for calling aws endpoints and parsing results
 """
 
+import os
 import boto3
 
 
@@ -74,7 +75,7 @@ def upload_to_s3(file, bucket, username, key_suffix=None):
     if key_suffix:
         key = "{}/{}".format(username, key_suffix)
     else:
-        key = username
+        key = "{}/{}".format(username, os.path.basename(file))
 
     s3.upload_file(file, bucket, key)
     print("[AWS] Uploaded file {} to s3://{}/{}".format(file, bucket, key))
