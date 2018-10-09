@@ -4,6 +4,7 @@ services:
     build: .
     volumes:
       - .:/app
+      - ${HOST_GOOGLE_KEYFILE}:${GOOGLE_KEYFILE}
     environment:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
