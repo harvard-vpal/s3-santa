@@ -37,7 +37,7 @@ class SantaCli(object):
 
     def generate_user(self):
         user = self.santa.generate_user()
-        print "Generated user: {}".format(user.name)
+        print("Generated user: {}".format(user.name))
 
 
     def create_user(self, username=None, save=True):
@@ -50,7 +50,7 @@ class SantaCli(object):
             user = self.santa.generate_user()
             confirm_create = strtobool(raw_input('Create user "{}"? [y/n] '.format(user.name)))
             if not confirm_create:
-                print "User creation cancelled"
+                print("User creation cancelled")
                 return
             user = self.santa.create_user(user.name)
-        print "Successfully created new data request user {}".format(user.name)
+        print("Successfully created new data request user {}".format(user.name))
