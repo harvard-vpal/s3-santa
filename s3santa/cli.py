@@ -48,7 +48,7 @@ class SantaCli(object):
             user = self.santa.create_user(username)
         else:
             user = self.santa.generate_user()
-            confirm_create = strtobool(raw_input('Create user "{}"? [y/n] '.format(user.name)))
+            confirm_create = strtobool(input('Create user "{}"? [y/n] '.format(user.name)))
             if not confirm_create:
                 print("User creation cancelled")
                 return
