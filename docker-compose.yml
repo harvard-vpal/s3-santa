@@ -1,0 +1,14 @@
+version: '3'
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_DEFAULT_REGION
+      - S3_BUCKET
+      - IAM_GROUP
+      - GOOGLE_KEYFILE
+      - GOOGLE_SPREADSHEET_ID

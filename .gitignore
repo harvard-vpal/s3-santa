@@ -2,3 +2,6 @@
 config.py
 csv
 *.pyc
+.env
+.idea/
+*.egg-info/
