@@ -1,6 +1,6 @@
-from user import User
-import aws
-from generate_name import generate_name
+from .user import User
+from .aws import upload_to_s3
+from .generate_name import generate_name
 
 
 class Santa:
@@ -61,6 +61,6 @@ class Santa:
         if not user.exists():
             raise Exception("User {} doesn't exist yet!")
         # upload to bucket under user folder
-        aws.upload_to_s3(file, self.s3_bucket, user.name)
+        upload_to_s3(file, self.s3_bucket, user.name)
         return "Success: Delivered file {} to user {}".format(file, user.name)
 

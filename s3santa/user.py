@@ -2,7 +2,7 @@
 Module containing data request user class
 """
 
-import aws
+from .aws import user_exists, create_user, create_access_key, add_user_to_group, create_s3_folder
     
 
 class User:
@@ -22,7 +22,7 @@ class User:
         """"
         indicates whether IAM user with username already exists
         """
-        return aws.user_exists(self.name)
+        return user_exists(self.name)
 
     def save(self, s3_bucket, iam_group, user_store):
         """
@@ -31,12 +31,12 @@ class User:
         if self.exists():
             raise Exception("AWS user already exists")
         # create iam user
-        aws.create_user(self.name)
+        create_user(self.name)
         # create keypair
-        self.access_key_id, self.secret_access_key = aws.create_access_key(self.name)
+        self.access_key_id, self.secret_access_key = create_access_key(self.name)
         # add user to data requests IAM group
-        aws.add_user_to_group(self.name, iam_group)
+        add_user_to_group(self.name, iam_group)
         # create user folder (labeled by username) in s3 bucket
-        aws.create_s3_folder(s3_bucket, self.name)
+        create_s3_folder(s3_bucket, self.name)
         # updates spreadsheet/db with user info and credentials
         user_store.add_user(self)

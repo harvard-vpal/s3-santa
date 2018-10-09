@@ -66,7 +66,7 @@ class GoogleSpreadsheet(UserStore):
 			'Secret Access Key',
 			'Description'
 		],index=1)
-		print "Initialized columns on Google spreadsheet"
+		print("Initialized columns on Google spreadsheet")
 
 		self.spreadsheet.resize(rows=1,cols=4)
 
@@ -81,7 +81,7 @@ class GoogleSpreadsheet(UserStore):
 			user.secret_access_key,
 			user.description,
 		])
-		print "Added user to google spreadsheet"
+		print("Added user to google spreadsheet")
 
 
 class LocalCSV:
@@ -129,7 +129,7 @@ class LocalCSV:
 			'Secret Access Key',
 			'Description'
 		])
-		print "Initialized columns in local csv file"
+		print("Initialized columns in local csv file")
 
 		
 	def add_user(self, user):
@@ -142,5 +142,5 @@ class LocalCSV:
 			user.secret_access_key,
 			user.description,
 		])
-		print "Added record for user"
+		print("Added record for user")
 
