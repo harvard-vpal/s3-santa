@@ -20,19 +20,19 @@ class SantaCli(object):
         # define subcommand: create-user
         subparser = subparsers.add_parser('create-user')
         subparser.set_defaults(func=getattr(self,'create_user'))
-        subparser.add_argument('--user', help="Username of user to create (Leave unspecified to generate a random username)")
+        subparser.add_argument('--user', dest='username', help="Username of user to create (Leave unspecified to generate a random username)")
 
         # define subcommand: deliver
         subparser = subparsers.add_parser('deliver')
         subparser.set_defaults(func=getattr(self.santa,'deliver'))
-        subparser.add_argument('--user', help="Username of user to deliver file to. (If username does not exist yet, the user will be created)")
+        subparser.add_argument('--user', dest='username', help="Username of user to deliver file to. (If username does not exist yet, the user will be created)")
         subparser.add_argument('--file', help="File to upload to user data folder")
         
 
     def run(self):
         # parse and execute
         args = self.parser.parse_args()
-        args.func()
+        args.func(**vars(args))
 
 
     def generate_user(self):

@@ -50,7 +50,7 @@ class Santa:
         return user
 
 
-    def deliver(self, file, username):
+    def deliver(self, file, username, **kwargs):
         """
         Delivers a file to a S3 user folder
         If name not specified, or name doesnt match existing user, creates a new AWS user
