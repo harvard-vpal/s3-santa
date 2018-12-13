@@ -40,7 +40,7 @@ class SantaCli(object):
         print("Generated user: {}".format(user.name))
 
 
-    def create_user(self, username=None, save=True):
+    def create_user(self, username=None, save=True, **kwargs):
         """
         2-step process for creating users if name not specified (adds confirmation step)
         """
