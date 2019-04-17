@@ -13,6 +13,12 @@ Create AWS resources if not already set up:
 
 
 ### Setup
+
+#### Local requirements
+* Docker
+* Docker Compose
+
+#### Build environment
 Clone this repo and build the environment with Docker:
 ```bash
 git clone https://github.com/kunanit/s3-santa
